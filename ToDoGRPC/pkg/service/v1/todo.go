@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"alive/Alive/Todo/pkg/service/v1"
+	"Alive/Todo/pkg/service/v1"
 )
 
 const (

@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"alive/Alive/Todo/pkg/proto/v1"
-	"alive/Alive/Todo/pkg/service/v1"
+	"Alive/Todo/pkg/proto/v1"
+	"Alive/Todo/pkg/service/v1"
 )
 
 type Config struct {

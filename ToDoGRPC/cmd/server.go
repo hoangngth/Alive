@@ -6,8 +6,8 @@ import (
 	"flag"
 	"fmt"
 	"reflection"
-	"alive/Alive/Todo/pkg/proto/v1"
-	"alive/Alive/Todo/pkg/service/v1"
+	"Alive/Todo/pkg/proto/v1"
+	"Alive/Todo/pkg/service/v1"
 )
 
 func RunServer() error {
