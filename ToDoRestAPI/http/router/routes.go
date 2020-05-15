@@ -22,13 +22,18 @@ func GetToDos(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	page, err := strconv.Atoi(r.FormValue("page"))
 	if err != nil {
-		log.Fatal(http.StatusBadRequest)
+		log.Println("Failed converting String to Int")
+	}
+
+	tag := r.FormValue("tag")
+	if tag == "" {
+		tag = "%"
 	}
 
 	params := mux.Vars(r)
 	db := database.ConnectDatabase()
-	rows, err := db.Query("SELECT * FROM Todo WHERE UserId = ? LIMIT ? OFFSET ?",
-		params["userid"], toDosPerPage, (page-1)*toDosPerPage)
+	rows, err := db.Query("SELECT * FROM Todo WHERE UserId = ? AND Tag LIKE ? LIMIT ? OFFSET ?",
+		params["userid"], tag, toDosPerPage, (page-1)*toDosPerPage)
 	if err != nil {
 		log.Fatal(err)
 	}
