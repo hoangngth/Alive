@@ -3,9 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
+
 	"github.com/gorilla/mux"
 
-	router "alive/Alive/ToDoRestAPI/http/router"
+	router "Alive/ToDoRestAPI/http/router"
 )
 
 func main() {
@@ -19,4 +20,3 @@ func main() {
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
-
