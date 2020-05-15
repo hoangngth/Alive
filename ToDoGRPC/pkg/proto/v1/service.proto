@@ -32,6 +32,7 @@ message ToDoResponse {
 message ReadRequest{
     string api = 1;
     int64 id = 2;
+    int64 userId = 3;
 }
 
 message ReadResponse{
@@ -41,6 +42,7 @@ message ReadResponse{
 
 message ReadAllRequest{
     string api = 1;
+    int64 userId = 2;
 }
 
 message ReadAllResponse{
@@ -51,6 +53,7 @@ message ReadAllResponse{
 message CreateRequest{
     string api = 1;
     ToDoRequest toDo = 2;
+    int64 userId = 3;
 }
 
 message CreateResponse{
@@ -61,6 +64,7 @@ message CreateResponse{
 message UpdateRequest{
     string api = 1;
     ToDoRequest toDo = 2;
+    int64 userId = 3;
 }
 
 message UpdateResponse{
@@ -71,6 +75,7 @@ message UpdateResponse{
 message DeleteRequest{
     string api = 1;
     int64 id = 2;
+    int64 userId = 3;
 }
 
 message DeleteResponse{

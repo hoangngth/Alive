@@ -1,9 +1,9 @@
 package main
 
 import (
-	settings "Alive/ToDoGRPC/settings"
+	"Alive/ToDoGRPC/cmd"
 )
 
 func main() {
-	settings.RunServer()
+	cmd.RunServer()
 }

@@ -1,4 +1,4 @@
-package settings
+package cmd
 
 import (
 	"net"
@@ -13,6 +13,7 @@ import (
 
 func RunServer() {
 	db := database.ConnectDatabase()
+	defer db.Close()
 	toDoServer := service.NewToDoServiceServer(db)
 
 	listener, err := net.Listen("tcp", ":8000")
