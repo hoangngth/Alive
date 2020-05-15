@@ -3,22 +3,30 @@ package v1;
 
 import "google/protobuf/timestamp.proto";
 
-message ToDo {
+message ToDoRequest {
+    string title = 1;
+	string description = 2;   
+    enum Status {
+        ONHOLD = 0;
+        INPROCESS = 1;
+        DONE = 2;
+      }
+    Status status = 3;
+    string tag = 4;
+}
+
+message ToDoResponse {
     int64 id = 1;
     string title = 2;
-    string description = 3;
-    google.protobuf.Timestamp insert_at = 4;
-    google.protobuf.Timestamp update_at = 5;
-}
-
-message CreateRequest{
-    string api = 1;
-    ToDo toDo = 2;
-}
-
-message CreateResponse{
-    string api = 1;
-    int64 id = 2;
+	string description = 3;   
+    enum Status {
+        ONHOLD = 0;
+        INPROCESS = 1;
+        DONE = 2;
+      }
+    Status status = 4;
+    string tag = 5;
+    google.protobuf.Timestamp created_date = 6;
 }
 
 message ReadRequest{
@@ -28,17 +36,36 @@ message ReadRequest{
 
 message ReadResponse{
     string api = 1;
-    ToDo toDo = 2;
+    ToDoResponse toDo = 2;
+}
+
+message ReadAllRequest{
+    string api = 1;
+}
+
+message ReadAllResponse{
+    string api = 1;
+    repeated ToDoResponse toDos = 2;
+}
+
+message CreateRequest{
+    string api = 1;
+    ToDoRequest toDo = 2;
+}
+
+message CreateResponse{
+    string api = 1;
+    int64 id = 2;
 }
 
 message UpdateRequest{
     string api = 1;
-    ToDo toDo = 2;
+    ToDoRequest toDo = 2;
 }
 
 message UpdateResponse{
     string api = 1;
-    int64 updated = 2;
+    bool updated = 2;
 }
 
 message DeleteRequest{
@@ -48,22 +75,13 @@ message DeleteRequest{
 
 message DeleteResponse{
     string api = 1;
-    int64 deleted = 2;
-}
-
-message ReadAllRequest{
-    string api = 1;
-}
-
-message ReadAllResponse{
-    string api = 1;
-    repeated ToDo toDos = 2;
+    bool deleted = 2;
 }
 
 service ToDoService {
-    rpc Create(CreateRequest) returns (CreateResponse);
     rpc Read(ReadRequest) returns (ReadResponse);
+    rpc ReadAll(ReadAllRequest) returns (ReadAllResponse);
+    rpc Create(CreateRequest) returns (CreateResponse);
     rpc Update(UpdateRequest) returns (UpdateResponse);
     rpc Delete(DeleteRequest) returns (DeleteResponse);
-    rpc ReadAll(ReadAllRequest) returns (ReadAllResponse);
 }
