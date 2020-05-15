@@ -1,3 +1,3 @@
 # Alive
 
-This is readme file
+To run ToDo App RestAPI go to ToDoRestAPI and run main.go file
