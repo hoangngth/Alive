@@ -9,7 +9,6 @@ import (
 	"google.golang.org/grpc/status"
 
 	proto "Alive/ToDoGRPC/pkg/proto/v1"
-	v1 "Alive/ToDoGRPC/pkg/proto/v1"
 )
 
 const (
@@ -20,7 +19,7 @@ type server struct {
 	db *sql.DB
 }
 
-func NewToDoServiceServer(db *sql.DB) v1.ToDoServiceServer {
+func NewToDoServiceServer(db *sql.DB) proto.ToDoServiceServer {
 	return &server{db: db}
 }
 
