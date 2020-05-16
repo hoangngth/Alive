@@ -6,6 +6,8 @@ import (
 	"database/sql"
 	"log"
 
+	"github.com/golang/protobuf/ptypes"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -41,11 +43,11 @@ func (s *server) connect(ctx context.Context) (*sql.Conn, error) {
 	return c, nil
 }
 
-func (s *server) ReadAllResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
+func (s *server) ReadAll(ctx context.Context, request *proto.ReadAllRequest) (*proto.ReadAllResponse, error) {
 	return nil, nil
 }
 
-func (s *server) ReadResponse(ctx context.Context, request *proto.ReadRequest) (*proto.ReadResponse, error) {
+func (s *server) Read(ctx context.Context, request *proto.ReadRequest) (*proto.ReadResponse, error) {
 
 	if err := s.checkAPI(request.Api); err != nil {
 		return nil, err
@@ -67,7 +69,8 @@ func (s *server) ReadResponse(ctx context.Context, request *proto.ReadRequest) (
 
 	var toDo proto.ToDoResponse
 	for rows.Next() {
-		err = rows.Scan(&toDo.Id, &toDo.Title, &toDo.Description, &toDo.Status, &toDo.Tag, &toDo.CreatedDate)
+		createdDate, err := ptypes.Timestamp(toDo.CreatedDate)
+		err = rows.Scan(&toDo.Id, &toDo.UserId, &toDo.Title, &toDo.Description, &toDo.Status, &toDo.Tag, &createdDate)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -76,14 +79,14 @@ func (s *server) ReadResponse(ctx context.Context, request *proto.ReadRequest) (
 	return &proto.ReadResponse{Api: apiVersion, ToDo: &toDo}, nil
 }
 
-func (s *server) CreateResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
+func (s *server) Create(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
 	return nil, nil
 }
 
-func (s *server) UpdateResponse(ctx context.Context, request *proto.UpdateRequest) (*proto.UpdateResponse, error) {
+func (s *server) Update(ctx context.Context, request *proto.UpdateRequest) (*proto.UpdateResponse, error) {
 	return nil, nil
 }
 
-func (s *server) DeleteResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
+func (s *server) Delete(ctx context.Context, request *proto.DeleteRequest) (*proto.DeleteResponse, error) {
 	return nil, nil
 }

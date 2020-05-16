@@ -7,8 +7,8 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	database "Alive/ToDoGRPC/database"
+	proto "Alive/ToDoGRPC/proto"
 	service "Alive/ToDoGRPC/service"
-	proto "Alive/TodoGRPC/proto"
 )
 
 func RunServer() {

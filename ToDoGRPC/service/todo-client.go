@@ -29,12 +29,12 @@ func ReadToDo(ctx *gin.Context) {
 
 	clientService := dialToServiceServer(8000)
 
-	userId, err := strconv.Atoi(ctx.Params("userid"))
+	userId, err := strconv.Atoi(ctx.Param("userid"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	toDoId, err := strconv.Atoi(ctx.Params("todoid"))
+	toDoId, err := strconv.Atoi(ctx.Param("todoid"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,17 +42,18 @@ func ReadToDo(ctx *gin.Context) {
 	request := &proto.ReadRequest{Api: "v1", Id: int64(toDoId), UserId: int64(userId)}
 
 	if response, err := clientService.Read(ctx, request); err == nil {
-		ctx.JSON(http.StatusOK, ctx.BindJSON(response.ToDo))
+		ctx.JSON(http.StatusOK, gin.H{
+			"id":          response.ToDo.Id,
+			"userid":      response.ToDo.UserId,
+			"title":       response.ToDo.Title,
+			"description": response.ToDo.Description,
+			"status":      response.ToDo.Status,
+			"tag":         response.ToDo.Tag,
+			"createddate": response.ToDo.CreatedDate})
 	} else {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
-	// gin.H{
-	// 	"id":          response.ToDo.Id,
-	// 	"title":       response.ToDo.Title,
-	// 	"description": response.ToDo.Description,
-	// 	"status":      response.ToDo.Status,
-	// 	"tag":         response.ToDo.Tag,
-	// 	"createddate": response.ToDo.CreatedDate,
+
 }
 
 func CreateToDo(ctx *gin.Context) {
