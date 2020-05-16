@@ -3,18 +3,20 @@ package v1
 import (
 	"log"
 	"net/http"
+	v1 "std/Alive/ToDoGRPC/pkg/proto/v1"
 	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 )
 
-func dialToServiceServer(port int) {
+func dialToServiceServer(port int) v1.ToDoServiceClient {
 
 	conn, err := grpc.Dial("localhost:"+strconv.Itoa(port), grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
-	client := proto.NewAddServiceClient(conn)
+	client := v1.NewToDoServiceClient(conn)
 
 	return client
 }
@@ -37,10 +39,10 @@ func ReadToDo(ctx *gin.Context) {
 		log.Fatal(err)
 	}
 
-	request := &proto.ReadRequest{Api: "v1", Id: toDoId, UserId: userId}
+	request := &v1.ReadRequest{Api: "v1", Id: int64(toDoId), UserId: int64(userId)}
 
-	if response, err := clientService.ReadResponse(ctx, request); err == nil {
-		ctx.JSON(http.StatusOK, ctx.BindJSON(response.ToDo)})
+	if response, err := clientService.Read(ctx, request); err == nil {
+		ctx.JSON(http.StatusOK, ctx.BindJSON(response.ToDo))
 	} else {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}

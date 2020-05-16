@@ -4,11 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	v1 "std/Alive/ToDoGRPC/pkg/proto/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-
-	proto "Alive/ToDoGRPC/pkg/proto/v1"
 )
 
 const (
@@ -19,11 +18,11 @@ type server struct {
 	db *sql.DB
 }
 
-func NewToDoServiceServer(db *sql.DB) proto.ToDoServiceServer {
+func NewToDoServiceServer(db *sql.DB) v1.ToDoServiceServer {
 	return &server{db: db}
 }
 
-func (s *toDoServiceServer) checkAPI(api string) error {
+func (s *server) checkAPI(api string) error {
 	if len(api) > 0 {
 		if apiVersion != api {
 			return status.Errorf(codes.Unimplemented,
@@ -34,7 +33,7 @@ func (s *toDoServiceServer) checkAPI(api string) error {
 }
 
 // Get SQL connection from pool
-func (s *toDoServiceServer) connect(ctx context.Context) (*sql.Conn, error) {
+func (s *server) connect(ctx context.Context) (*sql.Conn, error) {
 	c, err := s.db.Conn(ctx)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to connect to database-> "+err.Error())
@@ -42,13 +41,13 @@ func (s *toDoServiceServer) connect(ctx context.Context) (*sql.Conn, error) {
 	return c, nil
 }
 
-func (s *server) ReadAllResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
-	return
+func (s *server) ReadAllResponse(ctx context.Context, request *v1.CreateRequest) (*v1.CreateResponse, error) {
+	return nil, nil
 }
 
-func (s *server) ReadResponse(ctx context.Context, request *proto.ReadRequest) (*proto.ReadResponse, error) {
+func (s *server) ReadResponse(ctx context.Context, request *v1.ReadRequest) (*v1.ReadResponse, error) {
 
-	if err := s.checkAPI(req.Api); err != nil {
+	if err := s.checkAPI(request.Api); err != nil {
 		return nil, err
 	}
 
@@ -66,27 +65,25 @@ func (s *server) ReadResponse(ctx context.Context, request *proto.ReadRequest) (
 	}
 	defer rows.Close()
 
-	var toDo proto.ToDo
+	var toDo v1.ToDoResponse
 	for rows.Next() {
-		err = rows.Scan(&toDo.Id, &toDo.UserId, &toDo.Title, &toDo.Description, &toDo.Status, &toDo.Tag, &toDo.CreatedDate)
+		err = rows.Scan(&toDo.Id, &toDo.Title, &toDo.Description, &toDo.Status, &toDo.Tag, &toDo.CreatedDate)
 		if err != nil {
 			log.Fatal(err)
-		} else {
-			toDosResponse.ToDos = append(toDosResponse.ToDos, &toDo)
 		}
 	}
 
-	return &proto.ReadResponse{Api: apiVersion, &toDo}, nil
+	return &v1.ReadResponse{Api: apiVersion, ToDo: &toDo}, nil
 }
 
-func (s *server) CreateResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
-	return
+func (s *server) CreateResponse(ctx context.Context, request *v1.CreateRequest) (*v1.CreateResponse, error) {
+	return nil, nil
 }
 
-func (s *server) UpdateResponse(ctx context.Context, request *proto.UpdateRequest) (*proto.UpdateResponse, error) {
-	return
+func (s *server) UpdateResponse(ctx context.Context, request *v1.UpdateRequest) (*v1.UpdateResponse, error) {
+	return nil, nil
 }
 
-func (s *server) DeleteResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
-	return
+func (s *server) DeleteResponse(ctx context.Context, request *v1.CreateRequest) (*v1.CreateResponse, error) {
+	return nil, nil
 }
