@@ -10,8 +10,9 @@ import (
 
 func main() {
 
-	g := gin.Default()
+	service.DialToServiceServer(8000)
 
+	g := gin.Default()
 	g.GET("/user/:userid", service.ReadAllToDo)
 	g.GET("/user/:userid/:todoid", service.ReadToDo)
 	g.POST("/user/:userid", service.CreateToDo)

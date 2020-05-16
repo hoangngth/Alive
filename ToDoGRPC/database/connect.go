@@ -1,7 +1,7 @@
 package database
 
 import (
-	util "alive/Alive/ToDoGRPC/util"
+	util "Alive/ToDoGRPC/util"
 	"database/sql"
 	"log"
 

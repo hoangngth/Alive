@@ -64,8 +64,9 @@ message CreateResponse{
 
 message UpdateRequest{
     string api = 1;
-    ToDoRequest toDo = 2;
-    int64 userId = 3;
+    int64 id = 2;
+    ToDoRequest toDo = 3;
+    int64 userId = 4;
 }
 
 message UpdateResponse{
