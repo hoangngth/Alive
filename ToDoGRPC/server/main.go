@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Alive/ToDoGRPC/cmd"
+	"Alive/ToDoGRPC/server/cmd"
 )
 
 func main() {

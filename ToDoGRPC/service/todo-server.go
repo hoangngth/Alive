@@ -1,10 +1,10 @@
-package v1
+package service
 
 import (
+	proto "Alive/ToDoGRPC/proto"
 	"context"
 	"database/sql"
 	"log"
-	v1 "std/Alive/ToDoGRPC/pkg/proto/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -18,7 +18,7 @@ type server struct {
 	db *sql.DB
 }
 
-func NewToDoServiceServer(db *sql.DB) v1.ToDoServiceServer {
+func NewToDoServiceServer(db *sql.DB) proto.ToDoServiceServer {
 	return &server{db: db}
 }
 
@@ -41,11 +41,11 @@ func (s *server) connect(ctx context.Context) (*sql.Conn, error) {
 	return c, nil
 }
 
-func (s *server) ReadAllResponse(ctx context.Context, request *v1.CreateRequest) (*v1.CreateResponse, error) {
+func (s *server) ReadAllResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
 	return nil, nil
 }
 
-func (s *server) ReadResponse(ctx context.Context, request *v1.ReadRequest) (*v1.ReadResponse, error) {
+func (s *server) ReadResponse(ctx context.Context, request *proto.ReadRequest) (*proto.ReadResponse, error) {
 
 	if err := s.checkAPI(request.Api); err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (s *server) ReadResponse(ctx context.Context, request *v1.ReadRequest) (*v1
 	}
 	defer rows.Close()
 
-	var toDo v1.ToDoResponse
+	var toDo proto.ToDoResponse
 	for rows.Next() {
 		err = rows.Scan(&toDo.Id, &toDo.Title, &toDo.Description, &toDo.Status, &toDo.Tag, &toDo.CreatedDate)
 		if err != nil {
@@ -73,17 +73,17 @@ func (s *server) ReadResponse(ctx context.Context, request *v1.ReadRequest) (*v1
 		}
 	}
 
-	return &v1.ReadResponse{Api: apiVersion, ToDo: &toDo}, nil
+	return &proto.ReadResponse{Api: apiVersion, ToDo: &toDo}, nil
 }
 
-func (s *server) CreateResponse(ctx context.Context, request *v1.CreateRequest) (*v1.CreateResponse, error) {
+func (s *server) CreateResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
 	return nil, nil
 }
 
-func (s *server) UpdateResponse(ctx context.Context, request *v1.UpdateRequest) (*v1.UpdateResponse, error) {
+func (s *server) UpdateResponse(ctx context.Context, request *proto.UpdateRequest) (*proto.UpdateResponse, error) {
 	return nil, nil
 }
 
-func (s *server) DeleteResponse(ctx context.Context, request *v1.CreateRequest) (*v1.CreateResponse, error) {
+func (s *server) DeleteResponse(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
 	return nil, nil
 }
