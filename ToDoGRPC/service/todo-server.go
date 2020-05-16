@@ -199,7 +199,7 @@ func (s *server) Delete(ctx context.Context, request *proto.DeleteRequest) (*pro
 	}
 
 	if rows == 0 {
-		return nil, status.Error(codes.NotFound, fmt.Sprintf("ToDo with ID='%d' is not found", request.GetId))
+		return nil, status.Error(codes.NotFound, fmt.Sprintf("ToDo with ID='%d' is not found", request.GetId()))
 	}
 
 	return &proto.DeleteResponse{Api: serverApiVersion, Deleted: true}, nil
