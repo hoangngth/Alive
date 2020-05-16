@@ -1,7 +1,7 @@
 package service
 
 import (
-	proto "Alive/ToDoGRPC/proto"
+	proto "Alive/ToDoGRPCv1/proto"
 	"log"
 	"net/http"
 	"strconv"

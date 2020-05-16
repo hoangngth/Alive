@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	service "Alive/ToDoGRPC/service"
+	service "Alive/ToDoGRPCv1/service"
 )
 
 func main() {

@@ -1,5 +1,7 @@
 # Alive
 
---RestAPI--
-1. To run ToDo App RestAPI go to ToDoRestAPI and run main.go file
+1. RestAPI
+2. GRPCv1
+3. GRPCv2
+
 
