@@ -1,0 +1,95 @@
+syntax = "proto3";
+package todo;
+
+import "google/protobuf/timestamp.proto";
+
+message ToDoRequest {
+    string title = 1;
+	string description = 2;   
+    enum Status {
+        ONHOLD = 0;
+        INPROCESS = 1;
+        DONE = 2;
+      }
+    Status status = 3;
+    string tag = 4;
+}
+
+message ToDoResponse {
+    int64 id = 1;
+    int64 profileId = 2;
+    string title = 3;
+	string description = 4;   
+    enum Status {
+        ONHOLD = 0;
+        INPROCESS = 1;
+        DONE = 2;
+      }
+    Status status = 5;
+    string tag = 6;
+    google.protobuf.Timestamp created_date = 7;
+}
+
+message ReadRequest{
+    string api = 1;
+    int64 id = 2;
+    int64 profileId = 3;
+}
+
+message ReadResponse{
+    string api = 1;
+    ToDoResponse toDo = 2;
+}
+
+message ReadAllRequest{
+    string api = 1;
+    int64 profileId = 2;
+    string tag = 3;
+}
+
+message ReadAllResponse{
+    string api = 1;
+    repeated ToDoResponse toDos = 2;
+}
+
+message CreateRequest{
+    string api = 1;
+    ToDoRequest toDo = 2;
+    int64 profileId = 3;
+}
+
+message CreateResponse{
+    string api = 1;
+    bool created = 2;
+}
+
+message UpdateRequest{
+    string api = 1;
+    int64 id = 2;
+    ToDoRequest toDo = 3;
+    int64 profileId = 4;
+}
+
+message UpdateResponse{
+    string api = 1;
+    bool updated = 2;
+}
+
+message DeleteRequest{
+    string api = 1;
+    int64 id = 2;
+    int64 profileId = 3;
+}
+
+message DeleteResponse{
+    string api = 1;
+    bool deleted = 2;
+}
+
+service ToDoService {
+    rpc Read(ReadRequest) returns (ReadResponse);
+    rpc ReadAll(ReadAllRequest) returns (ReadAllResponse);
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Update(UpdateRequest) returns (UpdateResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
